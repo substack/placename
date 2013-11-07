@@ -1,0 +1,12 @@
+var test = require('tape');
+var find = require('../');
+
+test('cities', function (t) {
+    t.plan(3);
+    
+    find('oakland', function (err, rows) {
+        t.equal(rows[0].adminCode, 'CA');
+        t.equal(rows[0].lat, 37.80437);
+        t.equal(rows[0].lon, -122.2708);
+    });
+});
