@@ -115,8 +115,7 @@ function find (query, cb) {
     
     var qstream = db.createReadStream({
         start: query,
-        end: query + '\uffff',
-        limit: 25
+        end: query + '\uffff'
     });
     qstream.on('error', cb);
     qstream.pipe(through(write, end));
