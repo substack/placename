@@ -61,3 +61,14 @@ test('province name', function (t) {
         t.equal(rows[0].adminCode, 'WA');
     });
 });
+
+test('ad-hoc abbreviation', function (t) {
+    t.plan(4);
+    
+    find('oakland, cali.', function (err, rows) {
+        t.equal(rows.length, 1);
+        t.equal(rows[0].adminCode, 'CA');
+        t.equal(rows[0].lat, 37.80437);
+        t.equal(rows[0].lon, -122.2708);
+    });
+});
