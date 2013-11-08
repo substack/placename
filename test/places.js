@@ -74,7 +74,7 @@ test('ad-hoc abbreviation', function (t) {
 });
 
 test('special abbreviations', function (t) {
-    t.plan(5);
+    t.plan(7);
     
     find('oakland, california, usa', function (err, rows) {
         t.equal(rows.length, 1);
@@ -88,6 +88,7 @@ test('special abbreviations', function (t) {
     });
     
     find('london, usa', function (err, rows) {
-        t.equal(rows[0].country, 'GB');
+        t.equal(rows[0].name, 'London');
+        t.equal(rows[0].country, 'US');
     });
 });
