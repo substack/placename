@@ -1,10 +1,37 @@
 var through = require('through');
 var countries = require('countrynames');
 var quotemeta = require('quotemeta');
+var provinces = require('provinces');
 
 var level = require('level');
 var sub = require('level-sublevel');
 var db = sub(level(__dirname + '/latlon.db', { encoding: 'json' }));
+
+var places = countries.getAllNames()
+    .concat(provinces.reduce(function (acc, r) {
+        return acc.concat(r.name || [], r.short || [], r.alt || [])
+    }, []))
+;
+var provinceMap = provinces.reduce(function (acc, p) {
+    if (!acc[p.country]) acc[p.country] = {};
+    [ p.name, p.short ].concat(p.alt).filter(Boolean).forEach(function (k) {
+        acc[p.country][k] = true;
+    });
+    return acc;
+}, {});
+
+var allProvinces = provinces.reduce(function (acc, p) {
+    [ p.name, p.short ].concat(p.alt).filter(Boolean).forEach(function (k) {
+        k = k.toUpperCase();
+        var sk = p.short && p.short.toUpperCase();
+        if (!acc[k]) acc[k] = [];
+        if (sk && !acc[sk]) acc[sk] = [];
+        if (sk) acc[sk].push(p);
+        acc[k].push(p);
+    });
+    
+    return acc;
+}, {});
 
 module.exports = function (query, cb) {
     var parts = query.toLowerCase().split(/[\.,\s\/]+/);
@@ -18,17 +45,27 @@ module.exports = function (query, cb) {
             if (res.length === 0) return next(index - 1);
             
             var extras = parts.slice(index).join(' ').split(RegExp(
-                '(' + countries.getAllNames().map(quotemeta).join('|') + ')'
+                '(' + places.map(quotemeta).join('|') + ')'
                     + '|\\s',
                 'i'
             )).filter(Boolean);
+            
             var matching = res.filter(function (row) {
                 return extras.every(function (e) {
                     var ue = e.toUpperCase();
+                    
                     return row.country === ue
                         || row.adminCode === ue
                         || row.altCountry.toUpperCase() === ue
                         || countries.getCode(e) === row.country
+                        || (allProvinces[ue]
+                        && allProvinces[ue].some(function (p) {
+                            if (row.adminCode
+                            && allProvinces[ue].short !== row.adminCode) {
+                                return false;
+                            }
+                            return p.country === row.country;
+                        }))
                     ;
                 });
             });
