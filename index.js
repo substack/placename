@@ -45,7 +45,7 @@ function find (query, cb) {
     
     var qstream = db.createReadStream({
         start: query,
-        end: query + '~',
+        end: query + '\uffff',
         limit: 25
     });
     qstream.on('error', cb);
