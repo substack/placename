@@ -1,0 +1,44 @@
+{
+  "name": "placename",
+  "version": "0.0.0",
+  "description": "find a normalized place name and lat/lon from a free-form location query",
+  "main": "index.js",
+  "dependencies": {
+    "countrynames": "~0.1.1",
+    "level": "~0.17.0-1",
+    "cities1000": "~0.0.0",
+    "provinces": "~0.0.0",
+    "quotemeta": "~0.0.0",
+    "split": "~0.2.10",
+    "through": "~2.3.4"
+  },
+  "devDependencies": {
+    "tape": "~2.1.0"
+  },
+  "scripts": {
+    "test": "tape test/*.js",
+    "postinstall": "bin/populate.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/substack/placename.git"
+  },
+  "homepage": "https://github.com/substack/placename",
+  "keywords": [
+    "latitude",
+    "longitude",
+    "location",
+    "geo",
+    "latlon",
+    "city",
+    "country",
+    "search",
+    "map"
+  ],
+  "author": {
+    "name": "James Halliday",
+    "email": "mail@substack.net",
+    "url": "http://substack.net"
+  },
+  "license": "MIT"
+}

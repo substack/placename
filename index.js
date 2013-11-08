@@ -4,8 +4,7 @@ var quotemeta = require('quotemeta');
 var provinces = require('provinces');
 
 var level = require('level');
-var sub = require('level-sublevel');
-var db = sub(level(__dirname + '/data', { encoding: 'json' }));
+var db = level(__dirname + '/data', { encoding: 'json' });
 
 var places = countries.getAllNames()
     .concat(provinces.reduce(function (acc, r) {

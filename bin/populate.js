@@ -1,38 +1,22 @@
+#!/usr/bin/env node
+
 var fs = require('fs');
 var split = require('split');
 var through = require('through');
 
 var level = require('level');
-var sub = require('level-sublevel');
-var db = sub(level(__dirname + '/../data', { encoding: 'json' }));
+var db = level(__dirname + '/../data', { encoding: 'json' });
 
-var fields = [
-    'id',
-    'name',
-    'asciiname',
-    'alternativeNames',
-    'lat',
-    'lon',
-    'featureClass',
-    'featureCode',
-    'country',
-    'altCountry',
-    'adminCode',
-    'countrySubdivision',
-    'municipality',
-    'municipalitySubdivision',
-    'population',
-    'elevation',
-    'dem',
-    'tz',
-    'lastModified'
-];
+var cities = require('cities1000');
 
-fs.createReadStream('/home/substack/data/cities1000.txt')
+console.error('Generating the index. This could take a minute or two.');
+console.error('Please wait...');
+
+fs.createReadStream(cities.file)
     .pipe(split())
     .pipe(through(function (line) {
         var row = line.split('\t').reduce(function (acc, x, ix) {
-            var key = fields[ix];
+            var key = cities.fields[ix];
             if (key === 'alternativeNames') x = x.split(',');
             if (key === 'lat' || key === 'lon') x = parseFloat(x);
             if (key === 'elevation') x = x ? parseInt(x, 10) : undefined;
