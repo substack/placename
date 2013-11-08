@@ -2,6 +2,8 @@
 
 find a normalized place name and lat/lon from a free-form location query
 
+[![build status](https://secure.travis-ci.org/substack/placename.png)](http://travis-ci.org/substack/placename)
+
 # example
 
 ``` js
