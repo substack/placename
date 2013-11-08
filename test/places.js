@@ -72,3 +72,22 @@ test('ad-hoc abbreviation', function (t) {
         t.equal(rows[0].lon, -122.2708);
     });
 });
+
+test('special abbreviations', function (t) {
+    t.plan(5);
+    
+    find('oakland, california, usa', function (err, rows) {
+        t.equal(rows.length, 1);
+        t.equal(rows[0].adminCode, 'CA');
+        t.equal(rows[0].lat, 37.80437);
+        t.equal(rows[0].lon, -122.2708);
+    });
+    
+    find('london, uk', function (err, rows) {
+        t.equal(rows[0].country, 'GB');
+    });
+    
+    find('london, usa', function (err, rows) {
+        t.equal(rows[0].country, 'GB');
+    });
+});
