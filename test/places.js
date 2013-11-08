@@ -30,3 +30,34 @@ test('US city with full state name', function (t) {
         t.equal(rows[0].lon, -122.2708);
     });
 });
+
+test('province name', function (t) {
+    t.plan(12);
+    
+    find('vancouver, bc', function (err, rows) {
+        t.equal(rows.length, 1);
+        t.equal(rows[0].country, 'CA');
+    });
+    
+    find('vancouver, ca', function (err, rows) {
+        t.equal(rows.length, 1);
+        t.equal(rows[0].country, 'CA');
+    });
+    
+    find('vancouver, bc, canada', function (err, rows) {
+        t.equal(rows.length, 1);
+        t.equal(rows[0].country, 'CA');
+    });
+    
+    find('vancouver, wa', function (err, rows) {
+        t.equal(rows.length, 1);
+        t.equal(rows[0].country, 'US');
+        t.equal(rows[0].adminCode, 'WA');
+    });
+    
+    find('vancouver, us', function (err, rows) {
+        t.equal(rows.length, 1);
+        t.equal(rows[0].country, 'US');
+        t.equal(rows[0].adminCode, 'WA');
+    });
+});
