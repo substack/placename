@@ -60,8 +60,8 @@ module.exports = function (query, cb) {
                         || countries.getCode(e) === row.country
                         || (allProvinces[ue]
                         && allProvinces[ue].some(function (p) {
-                            if (row.adminCode
-                            && allProvinces[ue].short !== row.adminCode) {
+                            if (/^[A-Z]+$/.test(row.adminCode)
+                            && p.short !== row.adminCode) {
                                 return false;
                             }
                             return p.country === row.country;
