@@ -91,7 +91,7 @@ function pivot (parts, index, res) {
             ;
             if (x) return true;
             
-            var re = RegExp('^' + ue, 'i');
+            var re = RegExp('^' + quotemeta(ue), 'i');
             return provinces.some(function (x) {
                 if (/^[A-Z]+$/.test(row.adminCode)
                 && x.short !== row.adminCode) {
