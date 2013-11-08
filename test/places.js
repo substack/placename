@@ -112,3 +112,12 @@ test('san francisco', function (t) {
         t.equal(rows[0].name, 'San Francisco');
     });
 });
+
+test('london', function (t) {
+    t.plan(2);
+    
+    find('london', function (err, rows) {
+        t.equal(rows[0].country, 'GB');
+        t.equal(rows[0].name, 'London');
+    });
+});

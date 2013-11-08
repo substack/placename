@@ -61,11 +61,6 @@ module.exports = function (query, cb) {
             if (am && !bm) return -1;
             if (bm && !am) return 1;
             
-            var af = a.from && a.from.toLowerCase() === terms;
-            var bf = b.from && b.from.toLowerCase() === terms;
-            if (af && !bf) return -1;
-            if (bf && !af) return 1;
-            
             return a.population < b.population ? 1 : -1;
         }
     })(parts.length);
@@ -115,7 +110,8 @@ function find (query, cb) {
     
     var qstream = db.createReadStream({
         start: query,
-        end: query + '\uffff'
+        end: query + '\uffff',
+        limit: 500
     });
     qstream.on('error', cb);
     qstream.pipe(through(write, end));
@@ -124,6 +120,8 @@ function find (query, cb) {
         ++ pending;
         var key = r.key.split('!')[1];
         db.get(key, function (err, row) {
+            if (err) return cb(err);
+            
             row.from = r.key.split('!')[0];
             results[key] = row;
             if (--pending === 0 && ended) done()
