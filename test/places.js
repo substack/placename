@@ -102,3 +102,13 @@ test('better pivots', function (t) {
         t.equal(rows[0].name, 'San Francisco');
     });
 });
+
+test('san francisco', function (t) {
+    t.plan(3);
+    
+    find('san francisco, usa', function (err, rows) {
+        t.equal(rows[0].adminCode, 'CA');
+        t.equal(rows[0].country, 'US');
+        t.equal(rows[0].name, 'San Francisco');
+    });
+});
