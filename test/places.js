@@ -92,3 +92,13 @@ test('special abbreviations', function (t) {
         t.equal(rows[0].country, 'US');
     });
 });
+
+test('better pivots', function (t) {
+    t.plan(3);
+    
+    find('sfo', function (err, rows) {
+        t.equal(rows[0].adminCode, 'CA');
+        t.equal(rows[0].country, 'US');
+        t.equal(rows[0].name, 'San Francisco');
+    });
+});

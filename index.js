@@ -5,7 +5,7 @@ var provinces = require('provinces');
 
 var level = require('level');
 var sub = require('level-sublevel');
-var db = sub(level(__dirname + '/latlon.db', { encoding: 'json' }));
+var db = sub(level(__dirname + '/data', { encoding: 'json' }));
 
 var places = countries.getAllNames()
     .concat(provinces.reduce(function (acc, r) {
@@ -29,7 +29,6 @@ var allProvinces = provinces.reduce(function (acc, p) {
         if (sk) acc[sk].push(p);
         acc[k].push(p);
     });
-    
     return acc;
 }, {});
 
@@ -61,6 +60,12 @@ module.exports = function (query, cb) {
             var bm = b.name.toLowerCase() === terms;
             if (am && !bm) return -1;
             if (bm && !am) return 1;
+            
+            var af = a.from && a.from.toLowerCase() === terms;
+            var bf = b.from && b.from.toLowerCase() === terms;
+            if (af && !bf) return -1;
+            if (bf && !af) return 1;
+            
             return a.population < b.population ? 1 : -1;
         }
     })(parts.length);
