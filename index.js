@@ -1,4 +1,6 @@
 var through = require('through');
+var countries = require('countrynames');
+var quotemeta = require('quotemeta');
 
 var level = require('level');
 var sub = require('level-sublevel');
@@ -15,13 +17,18 @@ module.exports = function (query, cb) {
             if (err) return cb(err);
             if (res.length === 0) return next(index - 1);
             
-            var extras = parts.slice(index);
+            var extras = parts.slice(index).join(' ').split(RegExp(
+                '(' + countries.getAllNames().map(quotemeta).join('|') + ')'
+                    + '|\\s',
+                'i'
+            )).filter(Boolean);
             var matching = res.filter(function (row) {
                 return extras.every(function (e) {
                     var ue = e.toUpperCase();
                     return row.country === ue
                         || row.adminCode === ue
                         || row.altCountry.toUpperCase() === ue
+                        || countries.getCode(e) === row.country
                     ;
                 });
             });
