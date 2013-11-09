@@ -59,6 +59,19 @@ Search for a city with a free-form location string `query`.
 
 `cb(err, results)` fires with an array `results` containing all the matches.
 
+# usage
+
+There's also a `placename` command that you can install with `npm install -g
+placename`.
+
+```
+usage: placename QUERY... {OPTIONS}
+
+  -n  limit results to `n` entries
+  -s  show short text output instead of json
+
+```
+
 # install
 
 With [npm](https://npmjs.org) do:

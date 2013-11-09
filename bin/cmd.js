@@ -1,8 +1,14 @@
 #!/usr/bin/env node
 
+var fs = require('fs');
 var find = require('../');
 var argv = require('optimist').boolean(['s']).argv;
 var query = argv._.join(' ');
+
+if (argv.h || argv.help || argv._.length === 0) {
+    fs.createReadStream(__dirname + '/usage.txt').pipe(process.stdout);
+    return;
+}
 
 find(query, function (err, rows) {
     if (err) {

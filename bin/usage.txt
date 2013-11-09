@@ -1,0 +1,6 @@
+
+usage: placename QUERY... {OPTIONS}
+
+  -n  limit results to `n` entries
+  -s  show short text output instead of json
+
