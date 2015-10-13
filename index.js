@@ -4,12 +4,13 @@ var quotemeta = require('quotemeta');
 var provinces = require('provinces');
 
 var level = require('level');
-var db = level(__dirname + '/data', { encoding: 'json' });
+var db = level(__dirname + '/data', { valueEncoding: 'json' });
 
 var places = countries.getAllNames()
     .concat(provinces.reduce(function (acc, r) {
         return acc.concat(r.name || [], r.short || [], r.alt || [])
     }, []))
+    .filter(function (p) { return p.length > 1 })
 ;
 var provinceMap = provinces.reduce(function (acc, p) {
     if (!acc[p.country]) acc[p.country] = {};
@@ -80,6 +81,7 @@ function pivot (parts, index, res) {
                 || row.adminCode === ue
                 || row.altCountry.toUpperCase() === ue
                 || countries.getCode(e) === row.country
+                || ue === row.country
                 || (allProvinces[ue]
                 && allProvinces[ue].some(function (p) {
                     if (/^[A-Z]+$/.test(row.adminCode)

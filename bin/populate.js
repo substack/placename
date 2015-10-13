@@ -5,7 +5,7 @@ var split = require('split');
 var through = require('through');
 
 var level = require('level');
-var db = level(__dirname + '/../data', { encoding: 'json' });
+var db = level(__dirname + '/../data', { valueEncoding: 'json' });
 
 var cities = require('cities1000');
 
