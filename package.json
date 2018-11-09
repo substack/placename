@@ -1,6 +1,6 @@
 {
   "name": "placename",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "find a normalized place name and lat/lon from a free-form location query",
   "main": "index.js",
   "bin": {
