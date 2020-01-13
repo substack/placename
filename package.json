@@ -21,7 +21,7 @@
   },
   "scripts": {
     "test": "tape test/*.js",
-    "postinstall": "bin/populate.js"
+    "postinstall": "node bin/populate.js"
   },
   "repository": {
     "type": "git",
